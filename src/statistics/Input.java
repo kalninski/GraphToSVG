@@ -265,6 +265,7 @@ public Input() {
 					
 					String name = fileName.getText();
 					System.out.println(fileName.getText());
+//					Function.fileName = fileName.getText();
 					Panel.fileName = name;
 
 					
@@ -357,7 +358,7 @@ public Input() {
 						SyntaxTree right = new SyntaxTree(yParam);
 						SyntaxTree parametric = new SyntaxTree();
 						parametric.root = new ParametricEq(left, right);
-						parametric.root.setFileName( xParam + ", " + yParam);
+						//parametric.root.setFileName( xParam + ", " + yParam);//THERE IS SOME PROBLEM WITH THIS setFileName METHOD ! MUST FIX 
 						Panel.listOfFunctions.add(parametric);
 					
 

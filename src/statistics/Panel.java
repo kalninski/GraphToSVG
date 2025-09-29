@@ -330,12 +330,7 @@ public class Panel extends JPanel implements MouseWheelListener, MouseListener,M
 			GenerateXML xml = new GenerateXML(f.root, i);
 			String path = String.format( "<path d=\"%s\" stroke=\"black\" fill=\"none\" stroke-width=\"2\"/>", xml.svg);
 //			System.out.println("TO BE APPENDED : " + xml.svg);
-			if(Grid.xAxisIsInPicture) {
-				outputSVG.append(Grid.xAxis + '\n');
-			}
-			if(Grid.yAxisIsInPicture) {
-				outputSVG.append(Grid.yAxis + '\n');
-			}
+			
 			for(String gH : Grid.gridH) {
 				outputSVG.append(gH);
 			}
@@ -344,7 +339,12 @@ public class Panel extends JPanel implements MouseWheelListener, MouseListener,M
 			}
 			outputSVG.append(path + "\n");
 			
-			
+			if(Grid.xAxisIsInPicture) {
+				outputSVG.append(Grid.xAxis + '\n');
+			}
+			if(Grid.yAxisIsInPicture) {
+				outputSVG.append(Grid.yAxis + '\n');
+			}
 			
 			}
 			outputSVG.append("</svg>");
