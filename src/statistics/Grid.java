@@ -10,8 +10,17 @@ public class Grid {
 	int red;
 	int green;
 	int blue;
+	static String xAxis = "<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" style=\"stroke:red;stroke-width:2\" />";
+	static String yAxis = "<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" style=\"stroke:red;stroke-width:2\" />";
+	static boolean xAxisIsInPicture = true;
+	static boolean yAxisIsInPicture = true;
 	public static int moveUpDown = 0;
 	public static int moveSide = 0;
+	
+	public Grid() {
+		
+	}
+	
 	
 	public static void moveLeft(int dX) {
 		moveSide -= dX/2;
@@ -34,7 +43,8 @@ public class Grid {
 		
 	
 	public void drawAxisOnScreen(Graphics2D g2d, boolean saveGraph, int red, int green, int blue) {
-		
+		 xAxis = "<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" style=\"stroke:red;stroke-width:2\" />";
+		 yAxis = "<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" style=\"stroke:red;stroke-width:2\" />";
 		Path2D.Double pathX = new Path2D.Double();
 		Path2D.Double pathY = new Path2D.Double();
 
@@ -42,8 +52,20 @@ public class Grid {
 		int centerY = (int) Panel.HEIGHT / 2;
 		pathX.moveTo(centerX + moveSide, 0);
 		pathX.lineTo(centerX + moveSide, Panel.HEIGHT);
+		int x1 = centerX + moveSide;
+
+		yAxis = String.format(yAxis, x1, 0, x1, Panel.HEIGHT);
+		System.out.println("yAxis" + yAxis + '\n'+ "centerX = " + centerX + " moveSide = " + moveSide + " sum = " + (moveSide + centerX));
+		if(centerX + moveSide < 0 || centerX + moveSide > Panel.WIDTH) {
+			yAxisIsInPicture = false;
+		}
 		pathY.moveTo(0, centerY + moveUpDown);
 		pathY.lineTo(Panel.WIDTH, centerY + moveUpDown);
+		xAxis = String.format(xAxis,0 , (centerY + moveUpDown), Panel.WIDTH, (centerY + moveUpDown));
+		System.out.println(xAxis);
+		if(centerY + moveUpDown < 0 || centerY + moveUpDown > Panel.HEIGHT) {
+			xAxisIsInPicture = false;
+		}
 		g2d.setStroke(new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
 		g2d.setColor(new Color(150, 150, 150));
 		g2d.draw(pathX);
