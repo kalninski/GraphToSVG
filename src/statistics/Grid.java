@@ -12,6 +12,8 @@ public class Grid {
 	int blue;
 	static String xAxis = "<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" style=\"stroke:red;stroke-width:2\" />";
 	static String yAxis = "<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" style=\"stroke:red;stroke-width:2\" />";
+	static Stack<String> gridH = new Stack<>();
+	static Stack<String> gridV = new Stack<>();
 	static boolean xAxisIsInPicture = true;
 	static boolean yAxisIsInPicture = true;
 	public static int moveUpDown = 0;
@@ -140,6 +142,14 @@ public class Grid {
 	}
 	
 	public void drawGridOnScreen(double dX, Graphics2D g2d) {
+		if(!gridV.empty() && !gridH.empty()) {
+			gridV.clear();
+			gridH.clear();
+		}
+		String lineH1;
+		String lineH2;
+		String lineV1;
+		String lineV2;
 		Path2D.Double pathX = new Path2D.Double();
 		Path2D.Double pathY = new Path2D.Double();
 		
@@ -148,6 +158,7 @@ public class Grid {
 		
 		int numOfLinesH =(int)(Panel.WIDTH / dX);
 		int numOfLinesV = (int) (Panel.HEIGHT/dX);
+		
 		double leftDX = -dX;
 		double rightDX = dX;
 		double lowDY = -dX;
@@ -158,10 +169,16 @@ public class Grid {
 		centerY = startPointY % ((int) dX);
 		
 		for(int x = 0; x <= numOfLinesH; x ++) {
+
 			pathX.moveTo(centerX + (x * leftDX), 0);
 			pathX.lineTo(centerX + (x * leftDX), Panel.HEIGHT);
 			pathX.moveTo(centerX + (x * rightDX), 0);
 			pathX.lineTo(centerX + (x * rightDX), Panel.HEIGHT);
+			lineH1 = String.format("<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" style=\"stroke:black;stroke-width:1\" />", (centerX + (x * leftDX)), 0, (centerX + (x * leftDX)), Panel.HEIGHT);
+			lineH2 = String.format("<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" style=\"stroke:black;stroke-width:1\" />", (centerX + (x * rightDX)), 0, (centerX + (x * rightDX)), Panel.HEIGHT);
+			
+			gridH.add(lineH1);
+			gridH.add(lineH2);
 			g2d.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
 			g2d.setColor(new Color(150, 150, 150));
 			g2d.draw(pathX);
@@ -170,6 +187,11 @@ public class Grid {
 				pathY.lineTo(Panel.WIDTH, centerY + (x * lowDY));
 				pathY.moveTo(0, centerY + (x * upDY));
 				pathY.lineTo(Panel.WIDTH, centerY + (x * upDY));
+				lineV1 = String.format("<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" style=\"stroke:black;stroke-width:1\" />", 0, (centerY + (x * lowDY)), Panel.WIDTH, ( centerY + (x * lowDY)));
+				lineV2 = String.format("<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\" style=\"stroke:black;stroke-width:1\" />", 0, (centerY + (x * upDY)), Panel.WIDTH, (centerY + (x * upDY)));
+			
+				gridV.add(lineV1);
+				gridV.add(lineV2);
 				g2d.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
 				g2d.setColor(new Color(150, 150, 150));
 				g2d.draw(pathY);

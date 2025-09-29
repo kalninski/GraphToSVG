@@ -336,6 +336,12 @@ public class Panel extends JPanel implements MouseWheelListener, MouseListener,M
 			if(Grid.yAxisIsInPicture) {
 				outputSVG.append(Grid.yAxis + '\n');
 			}
+			for(String gH : Grid.gridH) {
+				outputSVG.append(gH);
+			}
+			for(String gV : Grid.gridV) {
+				outputSVG.append(gV);
+			}
 			outputSVG.append(path + "\n");
 			
 			
